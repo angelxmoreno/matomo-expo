@@ -1,7 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 import Tracker, {TrackerArgs, UserInfo} from "../../src/Tracker";
 import axios from "axios";
-import {expect} from "chai";
 
 describe('Tracker', function () {
     let stub: MockAdapter;
@@ -30,15 +29,15 @@ describe('Tracker', function () {
         client: axios
     });
 
-    context('Sending requests', function () {
+    describe('Sending requests', function () {
         it('sends an app start action', async function () {
             const expectedParams = {
                 action_name: "App / start"
             }
             const report = await tracker.trackAppStart();
-            expect(report.didSend).to.be.true;
-            expect(report.requestParams).to.contain(expectedParams);
-            expect(report.response?.status).to.equal(200)
+            expect(report.didSend).toBeTruthy()
+            expect(report.requestParams).toMatchObject(expectedParams);
+            expect(report.response?.status).toBe(200)
         })
     })
 })
