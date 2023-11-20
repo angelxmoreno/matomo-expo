@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 import Tracker, {TrackerArgs, UserInfo} from "../../src/Tracker";
 import axios from "axios";
+import NetInfo, { NetInfoStateType} from '@react-native-community/netinfo';
 
 describe('Tracker', function () {
     let stub: MockAdapter;
@@ -23,6 +24,15 @@ describe('Tracker', function () {
             }
         ]
     });
+
+    jest
+        .spyOn(NetInfo, 'fetch')
+        .mockImplementation(async () => ({
+            isConnected: true,
+            type: NetInfoStateType.unknown,
+            details: null,
+            isInternetReachable: null
+        }));
 
     const tracker = new Tracker({
         ...trackerArgs,

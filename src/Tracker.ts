@@ -1,12 +1,17 @@
 import QueueStorage, {Entry} from "./QueueStorage";
 import MemoryQueueStorage from "./MemoryQueueStorage";
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, isAxiosError} from "axios";
+import {Dimensions} from "react-native";
+import * as Crypto from "expo-crypto";
+import Constants from "expo-constants";
+import * as Localization from "expo-localization";
+import NetInfo from '@react-native-community/netinfo';
 
 export interface UserInfo {
     uid?: string | number;
     lang?: string;
-    ua?:string;
-    res?:string;
+    ua?: string;
+    res?: string;
 }
 
 export interface TrackerArgs {
@@ -26,7 +31,7 @@ export interface BuildRequestReport {
 export default class Tracker {
     protected siteId: string | number;
     protected urlBase: string;
-    protected userInfo: UserInfo = {};
+    protected userInfo: UserInfo;
     protected storage: QueueStorage;
     client: AxiosInstance;
 
@@ -35,7 +40,8 @@ export default class Tracker {
         this.urlBase = urlBase;
         this.storage = storage || new MemoryQueueStorage({setSize: 20, setLimit: 100})
         this.userInfo = {
-            ...this.userInfo,
+            lang: Localization.locale,
+            res: this.getScreenResolution(),
             ...userInfo,
         }
 
@@ -53,19 +59,43 @@ export default class Tracker {
     }
 
     protected async isOnline(): Promise<boolean> {
-        return true;
+        try {
+            const state = await NetInfo.fetch();
+            return state.isConnected === true
+        } catch (e) {
+            return false;
+        }
+    }
+
+
+    protected getScreenResolution(): string {
+        const window = Dimensions.get('window');
+        return `${window.width}x${window.height}`
+    }
+
+    protected async getRandomValue(): Promise<string> {
+        const bytes = Crypto.getRandomBytes(8);
+        const values = Crypto.getRandomValues(bytes)
+
+        return [...values]
+            .map(n => n.toString(16))
+            .join('')
     }
 
     protected async buildRequest(params: Record<string, string>): Promise<BuildRequestReport> {
         const requestParams = {
-            ...this.userInfo,
             ...params,
             idsite: this.siteId,
             rec: 1,
             apiv: 1,
-            ...this.getLocalTime(),
             send_image: 0,
-            debug:1,
+            debug: 1,
+            _id: Constants.sessionId,
+            ...this.getLocalTime(),
+            rand: await this.getRandomValue(),
+            ua: await Constants.getWebViewUserAgentAsync(),
+
+            ...this.userInfo,
         }
 
         this.storage.add(requestParams);
@@ -104,7 +134,6 @@ export default class Tracker {
                 console.log('error.response?.data', error.response?.data)
             } else {
                 console.log('e.message', (e as Error).message)
-
             }
         }
     }
