@@ -138,7 +138,18 @@ export default class Tracker {
         }
     }
 
+    trackAction(action_name: string, params?: Record<string, any>) {
+        return this.buildRequest({
+            action_name,
+            ...params
+        });
+    }
+
     trackAppStart() {
-        return this.buildRequest({action_name: 'App / start'});
+        return this.trackAction('AppStart');
+    }
+
+    trackAppLoaded() {
+        return this.trackAction('AppLoaded');
     }
 }
