@@ -1,12 +1,12 @@
 namespace MatomoServerParams {
     // Required parameters interface
-    interface RequiredParams {
+    export interface RequiredParams {
         idsite: number; // The ID of the website we're tracking a visit/action for.
         rec: number;    // Required for tracking, must be set to one, eg, &rec=1.
     }
 
     // Recommended parameters interface
-    interface RecommendedParams {
+    export interface RecommendedParams {
         action_name?: string; // The title of the action being tracked.
         url?: string;         // The full URL for the current action.
         _id?: string;         // The unique visitor ID.
@@ -15,7 +15,7 @@ namespace MatomoServerParams {
     }
 
     // Optional User info interface
-    interface OptionalUserInfoParams {
+    export interface OptionalUserInfoParams {
         urlref?: string; // The full HTTP Referrer URL.
         res?: string;    // The resolution of the device.
         h?: number;      // The current hour (local time).
@@ -44,13 +44,13 @@ namespace MatomoServerParams {
     }
 
     // Optional Acquisition Channel Attribution interface
-    interface OptionalAcquisitionParams {
+    export interface OptionalAcquisitionParams {
         _rcn?: string; // The Campaign name used to attribute goal conversions.
         _rck?: string; // The Campaign keyword used to attribute goal conversions.
     }
 
     // Optional Action info interface
-    interface OptionalActionParams {
+    export interface OptionalActionParams {
         cvar?: string; // Page scope custom variables. JSON encoded string of the custom variable array.
         link?: string; // An external URL the user has opened. Used for tracking outlink clicks.
         download?: string; // URL of a file the user has downloaded. Used for tracking downloads.
@@ -66,7 +66,7 @@ namespace MatomoServerParams {
     }
 
     // Optional Page Performance info interface
-    interface OptionalPagePerformanceParams {
+    export interface OptionalPagePerformanceParams {
         pf_net?: number; // Network time. How long it took to connect to the server.
         pf_srv?: number; // Server time. How long it took the server to generate the page.
         pf_tfr?: number; // Transfer time. How long it takes the browser to download the response from the server.
@@ -76,7 +76,7 @@ namespace MatomoServerParams {
     }
 
     // Optional Event Tracking info interface
-    interface OptionalEventTrackingParams {
+    export interface OptionalEventTrackingParams {
         e_c?: string; // The event category.
         e_a?: string; // The event action.
         e_n?: string; // The event name.
@@ -84,14 +84,14 @@ namespace MatomoServerParams {
     }
 
     // Optional Content Tracking info
-    interface ContentTrackingInfo {
+    export interface ContentTrackingInfo {
         c_n?: string; // Content name
         c_p?: string; // Content piece (path to image, video, audio, text)
         c_t?: string; // Target of the content (URL of landing page)
         c_i?: string; // Interaction with the content (e.g., 'click')
     }
 
-    interface EcommerceItem {
+    export interface EcommerceItem {
         sku: string; // Item SKU (required)
         name: string; // Item name (or empty string if not applicable)
         category: string; // Item category (or empty string if not applicable)
@@ -99,7 +99,7 @@ namespace MatomoServerParams {
         quantity: number; // Item quantity (or 1 if not applicable)
     }
 
-    interface EcommerceInfo {
+    export interface EcommerceInfo {
         ec_id: string; // Unique identifier for ecommerce order
         ec_items: EcommerceItem[]; // JSON encoded array of ecommerce items
         revenue: number; // Grand total for the ecommerce order
@@ -109,7 +109,7 @@ namespace MatomoServerParams {
         ec_dt?: number; // Discount offered
     }
 
-    interface CrashRequest {
+    export interface CrashRequest {
         ca: string; // Must always be included and always set to 1
         cra: string; // The message of the error (required)
         cra_st?: string; // The stack trace of the error (optional)
@@ -120,7 +120,7 @@ namespace MatomoServerParams {
         cra_rc?: string; // The column of the source file where the error occurred (optional)
     }
 
-    interface OtherParameters {
+    export interface OtherParameters {
         send_image?: number; // If set to 0, Matomo will respond with an HTTP 204 response code instead of a GIF image.
         ping?: number; // If set to 1, the request will be a Heartbeat request, updating the visit's total time.
         bots?: number; // To enable Bot Tracking in Matomo, set to 1.

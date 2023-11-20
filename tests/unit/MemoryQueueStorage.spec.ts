@@ -1,5 +1,5 @@
-import MemoryQueueStorage from "../src/MemoryQueueStorage";
-import {Entry} from "../src/QueueStorage";
+import MemoryQueueStorage from "../../src/MemoryQueueStorage";
+import {Entry} from "../../src/QueueStorage";
 import {expect} from "chai";
 
 const createEntries = (numEntries: number = 1): Entry[] => {

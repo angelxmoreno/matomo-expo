@@ -9,6 +9,7 @@
     "docker:stop": "docker-compose -f docker/docker-compose.yml stop",
     "docker:rm": "docker-compose -f docker/docker-compose.yml rm",
     "test": "mocha",
+    "test:integration": "mocha tests/integration/**/*.spec.ts",
     "build": "rimraf dist && tsc"
   },
   "devDependencies": {
@@ -19,7 +20,6 @@
     "axios-mock-adapter": "^1.22.0",
     "chai": "^4.3.10",
     "mocha": "^10.2.0",
-    "react-native-mock-render": "^0.1.9",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
@@ -35,7 +35,7 @@
     "extension": [
       "ts"
     ],
-    "spec": "tests/**/*.spec.ts",
+    "spec": "tests/unit/**/*.spec.ts",
     "require": [
       "ts-node/register"
     ],

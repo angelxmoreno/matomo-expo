@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-import Tracker, {TrackerArgs, UserInfo} from "../src/Tracker";
+import Tracker, {TrackerArgs, UserInfo} from "../../src/Tracker";
 import axios from "axios";
 import {expect} from "chai";
 
