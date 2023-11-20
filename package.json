@@ -4,6 +4,10 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "scripts": {
+    "docker:start": "docker-compose -f docker/docker-compose.yml up --remove-orphans",
+    "docker:start:detached": "docker-compose -f docker/docker-compose.yml up -d --remove-orphans",
+    "docker:stop": "docker-compose -f docker/docker-compose.yml stop",
+    "docker:rm": "docker-compose -f docker/docker-compose.yml rm",
     "test": "mocha",
     "build": "rimraf dist && tsc"
   },
