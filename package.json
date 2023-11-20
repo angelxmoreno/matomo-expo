@@ -1,16 +1,16 @@
 {
-  "name": "matomo-tracker-react-native-v2",
+  "name": "matomo-expo",
   "version": "0.0.0",
   "license": "MIT",
   "main": "./dist/index.js",
   "scripts": {
-    "docker:start": "docker-compose -f docker/docker-compose.yml up --remove-orphans",
-    "docker:start:detached": "docker-compose -f docker/docker-compose.yml up -d --remove-orphans",
-    "docker:stop": "docker-compose -f docker/docker-compose.yml stop",
-    "docker:rm": "docker-compose -f docker/docker-compose.yml rm",
     "test": "jest",
     "test:integration": "mocha tests/integration/**/*.spec.ts",
-    "build": "rimraf dist && tsc"
+    "build": "rimraf dist && tsc",
+    "matomo:start": "cd matomo; docker-compose up --detach",
+    "matomo:stop": "cd matomo; docker-compose down",
+    "matomo:reset": "cd matomo; yarn matomo:stop; docker run --rm --volume matomo_db:/dbdata --volume $(pwd):/backup ubuntu tar xvzf /backup/initial-db.gz -C /dbdata --strip 1; yarn matomo:start",
+    "matomo:destroy": "cd matomo; docker-compose down -v"
   },
   "dependencies": {
     "@react-native-community/netinfo": "9.3.10",
