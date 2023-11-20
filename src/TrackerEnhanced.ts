@@ -1,4 +1,4 @@
-import Tracker from "./Tracker";
+import Tracker, {BuildRequestReport} from "./Tracker";
 import Constants from 'expo-constants';
 import {Dimensions} from 'react-native';
 import * as Crypto from "expo-crypto";
@@ -18,7 +18,7 @@ export default class TrackerEnhanced extends Tracker {
             .join('')
     }
 
-    protected async buildRequest(params: Record<string, string>) {
+    protected async buildRequest(params: Record<string, string>): Promise<BuildRequestReport> {
         const enhancedParams:Record<string, any> = {
             ...params,
             _id: Constants.sessionId,
@@ -26,6 +26,6 @@ export default class TrackerEnhanced extends Tracker {
             ua: await Constants.getWebViewUserAgentAsync(),
             rand: await this.getRandomValue(),
         }
-        await super.buildRequest(enhancedParams);
+        return super.buildRequest(enhancedParams);
     }
 }
